@@ -12,6 +12,8 @@
 
 Github with the organization of the "ProxyPrize" project
 
+[ProxyPrizes_PublicUserApp](https://github.com/TomRaz7/ProxyPrizes_PublicUserApp)
+
 ## Documents 
 
 [Sprint File (Global Product Backlog)](https://docs.google.com/document/d/1ITNbgL-sYImb7OesFLkRM0NnmfYxn0Vx3P2fX3dLdjw/edit#) 
