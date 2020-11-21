@@ -18,7 +18,11 @@ Github with the organization of the "ProxyPrize" project
 
 [Sprint File (Global Product Backlog)](https://docs.google.com/document/d/1ITNbgL-sYImb7OesFLkRM0NnmfYxn0Vx3P2fX3dLdjw/edit#) 
 
-[First Sprint backlog](https://docs.google.com/document/d/102jllO_UXDWyHpwsNhTn4fyqwcMvPCtMYaSrJxBcz7Q/edit)
+[Sprint 1 delivery document](https://docs.google.com/document/d/102jllO_UXDWyHpwsNhTn4fyqwcMvPCtMYaSrJxBcz7Q/edit)
+
+[Sprint 2 delivery document](https://docs.google.com/document/d/1QP5-kwjhvqv8tU_m11TBCe4a4n_JwUBipDlrbTMkJ3o/edit#)
+
+
 
 ## Sprint Status
 
@@ -33,16 +37,16 @@ Github with the organization of the "ProxyPrize" project
 
 |Task                                 |Difficult |Asignee |Sprint |
 |:------------------------------------|:--------|:--------|:--------|
-|Create Register / login Screen		  | -    | -  | Sprint 2|
-|Provide a smooth navigation through the app		  | -    | -  | Sprint 2|
-|List of all the posts related to the shop		  | -    | -  | Sprint 2|
-|List of pending discounts that the owner of a shop can monitor		  | -    | -  | Sprint 2|
-|List of all discounts that had already been used with usage date		  | -    | -  | Sprint 2|
-|Have access to accurate figures to measure involvement around a post related with a product of the shop		  | -    | -  | Sprint 2|
-|Post a product to advertise it.		  | -    | -  | Sprint 2|
-|Receive notifications about a product’s availability and answer to the user with an optional quantity	  | -    | -  | Sprint 2|
-|Provide different kind of roles and permissions (owner / employee)		  | -    | -  | Sprint 2|
-|Back-end data within the professional shop profile (subscribers number, etc.)		  | -    | -  | Sprint 2|
+|Create Register / login Screen		  | -    | Marcel  | Sprint 2|
+|Provide a smooth navigation through the app		  | -    | Marcel  | Sprint 2|
+|List of all the posts related to the shop		  | -    | Marcel  | Sprint 2|
+|List of pending discounts that the owner of a shop can monitor		  | -    | Marcel | Sprint 2|
+|List of all discounts that had already been used with usage date		  | -    | Marcel  | Sprint 2|
+|Have access to accurate figures to measure involvement around a post related with a product of the shop		  | -    | -  | Sprint 3|
+|Post a product to advertise it.		  | -    | Marcel  | Sprint 2|
+|Receive notifications about a product’s availability and answer to the user with an optional quantity	  | -    | -  | Sprint 3|
+|Provide different kind of roles and permissions (owner / employee)		  | -    | Danillo  | Sprint 2|
+|Back-end data within the professional shop profile (subscribers number, etc.)		  | -    | Danillo  | Sprint 2|
 |Organize contests		  | -    | -  | Sprint 3|
 
 
