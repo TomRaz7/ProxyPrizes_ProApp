@@ -30,8 +30,9 @@ export default class PostShop extends React.Component {
                   <Text style={{width: '55%',}}>{MaProps.description}</Text>
               </View>
 
-              <View>
-                <Text style={{marginTop:20, fontSize:30}}>{MaProps.price}$</Text>
+              <View
+              style={{alignContent:'flex-end'}}>
+                <Text style={{marginTop:20, fontSize:30, marginLeft:-30}}>{MaProps.price}$</Text>
               </View>
         </View>
 
@@ -44,9 +45,9 @@ export default class PostShop extends React.Component {
 
               <View style={{flexDirection:'row'}}>
 
-              <Text style={{marginTop:10, fontSize:20, fontWeight:'bold', margin:5, marginLeft:30}}>{MaProps.categoryTag}</Text>
+              <Text style={{marginTop:10, fontSize:20, fontWeight:'bold', margin:5}}>{MaProps.categoryTag}</Text>
               <Text style={{marginTop:15, fontSize:17, fontWeight:'bold'}}>{MaProps.likeCounter}Likes</Text>
-              <Text style={{marginLeft:'15%',marginTop:10,}}>Sorti le{MaProps.publishedAt}</Text>
+              <Text style={{marginLeft:20,marginTop:15,}}>Sorti le{MaProps.publishedAt}</Text>
               </View>
 
             </View>
