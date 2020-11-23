@@ -57,7 +57,7 @@ const HomeStackScreen =({navigation})=>(
       <DiscountUses.Screen name="Home"
        component={ShopPending}
        options={{
-         title:'Shop Pending',
+         title:'Pending Discount',
          headerLeft:()=>(
 
             <TouchableOpacity
@@ -82,7 +82,7 @@ const HomeStackScreen =({navigation})=>(
         <DiscountUses.Screen name="Home"
          component={DiscountUse}
          options={{
-           title:'DiscountUse',
+           title:'Use Discount',
            headerLeft:()=>(
 
               <TouchableOpacity
@@ -158,8 +158,8 @@ export default function App() {
             component={Login}
             />
             <Drawer.Screen name="PostShop" component={HomeStackScreen} />
-            <Drawer.Screen name="Shop Pending" component={ShopPendingScreen} />
-            <Drawer.Screen name="DiscountUse " component={DiscountUsesScreen} />
+            <Drawer.Screen name="Pending Discount" component={ShopPendingScreen} />
+            <Drawer.Screen name="Use Discount " component={DiscountUsesScreen} />
             <Drawer.Screen name="Create Post " component={CreatePostScreen} />
           </Drawer.Navigator>
       </NavigationContainer>
