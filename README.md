@@ -44,7 +44,7 @@ Github with the organization of the "ProxyPrize" project
 |List of all discounts that had already been used with usage date		  | Easy    | Marcel  | Sprint 2|
 |Post a product to advertise it.		  | Medium    | Marcel  | Sprint 2|
 |Provide different kind of roles and permissions (owner / employee)		  | Easy    | Danillo  | Sprint 2|
-|Back-end data within the professional shop profile (subscribers number, etc.)		  | Hard    | Danillo  | Sprint 2|
+|Back-end data within the professional shop profile 		  | Hard    | Danillo  | Sprint 2|
 |Have access to accurate figures to measure involvement around a post related with a product of the shop		  | Hard    | -  | Sprint 3|
 |Receive notifications about a product’s availability and answer to the user with an optional quantity	  | Hard    | -  | Sprint 3|
 |Organize contests		  | Medium   | -  | Sprint 3|
