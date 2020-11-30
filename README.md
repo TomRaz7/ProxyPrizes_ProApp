@@ -22,15 +22,20 @@ Github with the organization of the "ProxyPrize" project
 
 [Sprint 2 delivery document](https://docs.google.com/document/d/1m9Kzkq1-Rx0bekUdKr_ZYXPwn_9wVFpd2F-ueqXX1Jo/edit?usp=sharing)
 
-
+## Current sprint roles
+| Assistant  | Role  |  
+|---|---|
+| Tom  | Front-end specialist |   
+| Marcel | Scrum Master |
+| Danillo | Back-end specialist |
 
 ## Sprint Status
 
 |Sprint | Deadline :clock1: | Status |
 |:---------|:------------|:-----|
 |Sprint 1  | 10/11/2020 | Done |
-|Sprint 2  | 25/11/2020 | Ongoing |
-|Sprint 3  | 09/12/2020 | To be started |
+|Sprint 2  | 25/11/2020 | Done |
+|Sprint 3  | 16/12/2020 | Ongoing |
 
 
 ## Global Product Backlog items (PBI)
