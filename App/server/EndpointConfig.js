@@ -1,5 +1,5 @@
-const url = "http://192.168.1.135:3000";
-
+const url = "http://192.168.1.127:3000";
+//const url = "http:/127.0.0.1:3306"
 export default {
   createAccount: url + "/createAccount",
   addPost: url + "/addPost",
