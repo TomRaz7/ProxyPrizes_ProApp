@@ -1,179 +1,91 @@
-import * as React from "react";
-import { Button, Text, View, Image, TouchableOpacity } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { createDrawerNavigator } from "@react-navigation/drawer";
-import Icon from "react-native-vector-icons/Ionicons";
-import Login from "./Components/Login";
-import PostShop from "./Components/PostShop";
-import ShopPending from "./Components/ShopPending";
-import DiscountUse from "./Components/DiscountUse";
-import Register from "./Components/Register";
-import Data from "./Components/Data";
-import CreatePost from "./Components/CreatePost";
+import * as React from 'react';
+import { Button, View, Image } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 
-const HomeStack = createStackNavigator();
-const DetailsStack = createStackNavigator();
-const Drawer = createDrawerNavigator();
-const Tab = createBottomTabNavigator();
-const DiscountUses = createStackNavigator();
-const ShopPendings = createStackNavigator();
-const CreatePosts = createStackNavigator();
+import HomeScreen from './Screens/HomeScreen'
+import SettingScreen from './Screens/SettingScreen'
+import RegisterScreen from './Screens/RegisterScreen'
+import ShopPending from './Screens/ShopPending'
+import DispensingScreen from './Screens/DispensingScreen'
+import Login from './Screens/Login'
+import PostShop from './Screens/PostShop'
+import CreatePost from './Screens/CreatePost'
 
-const HomeStackScreen = ({ navigation }) => (
-  <HomeStack.Navigator
-    screenOptions={{
-      headerStyle: { backgroundColor: "#4169e1" },
-      headerTintColor: "#fff",
-      headerTitleStyle: { fontWeight: "bold" },
-    }}
-  >
-    <HomeStack.Screen
-      name="Home"
-      component={PostShop}
-      options={{
-        title: "Post Shop",
-        headerLeft: () => (
-          <TouchableOpacity onPress={() => navigation.openDrawer()}>
+const Stack = createStackNavigator();
+const Bottom = createMaterialBottomTabNavigator()
+
+function MyBottomNavigator(){
+  return(
+    <Bottom.Navigator>
+        <Bottom.Screen
+         name="PostShop"
+         component={PostShop}
+          options={{
+            tabBarIcon:({color})=>(
+              <Image
+              style={{height:25, width:25}}
+              source={require('/Users/mfoulouyvesmarcel/Desktop/ProAppClone/ProxyPrizes_ProApp/App/assets/shop.png')}/>
+            )
+          }}/>
+        <Bottom.Screen name="DiscountUse"
+         component={ShopPending}
+         options={{
+           tabBarIcon:({color})=>(
+             <Image
+             style={{height:25, width:25}}
+             source={require('/Users/mfoulouyvesmarcel/Desktop/ProAppClone/ProxyPrizes_ProApp/App/assets/basket-shop.png')}/>
+           )
+         }}/>
+        <Bottom.Screen
+        name="DispensingScreen"
+        component={DispensingScreen}
+        options={{
+          tabBarIcon:({color})=>(
             <Image
-              style={{ width: 25, height: 25 }}
-              source={require("./src/Images/menu.png")}
-            />
-          </TouchableOpacity>
-        ),
-      }}
-    />
-    <HomeStack.Screen name="Login" component={Login} />
-    <HomeStack.Screen name="Regist" component={Register} />
-  </HomeStack.Navigator>
-);
-
-const ShopPendingScreen = ({ navigation }) => (
-  <DiscountUses.Navigator
-    screenOptions={{
-      headerStyle: { backgroundColor: "#4169e1" },
-      headerTintColor: "#fff",
-      headerTitleStyle: { fontWeight: "bold" },
-    }}
-  >
-    <DiscountUses.Screen
-      name="Home"
-      component={ShopPending}
-      options={{
-        title: "Pending Discount",
-        headerLeft: () => (
-          <TouchableOpacity onPress={() => navigation.openDrawer()}>
+            style={{height:25, width:25}}
+            source={require('/Users/mfoulouyvesmarcel/Desktop/ProAppClone/ProxyPrizes_ProApp/App/assets/shopping-cart.png')}/>
+          )
+        }}/>
+        <Stack.Screen
+        name="CreatePost"
+        component={CreatePost}
+        options={{
+          tabBarIcon:({Colors})=>(
             <Image
-              style={{ width: 25, height: 25 }}
-              source={require("./src/Images/menu.png")}
-            />
-          </TouchableOpacity>
-        ),
-      }}
-    />
-    <DiscountUses.Screen name="Login" component={Login} />
-  </DiscountUses.Navigator>
-);
+            style={{height:25, width:25}}
+            source={require('/Users/mfoulouyvesmarcel/Desktop/ProAppClone/ProxyPrizes_ProApp/App/assets/add-file.png')}/>
+          )
+        }} />
+    </Bottom.Navigator>
+    )
+}
 
-const DiscountUsesScreen = ({ navigation }) => (
-  <DiscountUses.Navigator
-    screenOptions={{
-      headerStyle: { backgroundColor: "#4169e1" },
-      headerTintColor: "#fff",
-      headerTitleStyle: { fontWeight: "bold" },
-    }}
-  >
-    <DiscountUses.Screen
-      name="Home"
-      component={DiscountUse}
-      options={{
-        title: "Use Discount",
-        headerLeft: () => (
-          <TouchableOpacity onPress={() => navigation.openDrawer()}>
-            <Image
-              style={{ width: 25, height: 25 }}
-              source={require("./src/Images/menu.png")}
-            />
-          </TouchableOpacity>
-        ),
-      }}
-    />
-    <DiscountUses.Screen name="Login" component={Login} />
-  </DiscountUses.Navigator>
-);
 
-const CreatePostScreen = ({ navigation }) => (
-  <CreatePosts.Navigator
+function MyStack() {
+  return (
+    <Stack.Navigator
     screenOptions={{
-      headerStyle: { backgroundColor: "#4169e1" },
-      headerTintColor: "#fff",
-      headerTitleStyle: { fontWeight: "bold" },
-    }}
-  >
-    <CreatePosts.Screen
-      name="Home"
-      component={CreatePost}
-      options={{
-        title: "Create Post",
-        headerLeft: () => (
-          <TouchableOpacity onPress={() => navigation.openDrawer()}>
-            <Image
-              style={{ width: 25, height: 25 }}
-              source={require("./src/Images/menu.png")}
-            />
-          </TouchableOpacity>
-        ),
-      }}
-    />
-    <CreatePosts.Screen name="Login" component={Login} />
-  </CreatePosts.Navigator>
-);
-
-const DetailsStackScreen = ({ navigation }) => (
-  <DetailsStack.Navigator
-    screenOptions={{
-      headerStyle: { backgroundColor: "#4169e1" },
-      headerTintColor: "#fff",
-      headerTitleStyle: { fontWeight: "bold" },
-    }}
-  >
-    <DetailsStack.Screen
-      name="Home"
-      component={PostShop}
-      options={{ title: "DetailsStack" }}
-    />
-    <DetailsStack.Screen name="Login" component={Login} />
-  </DetailsStack.Navigator>
-);
-
-const TabScreen = ({ navigation }) => (
-  <Tab.Navigator
-    screenOptions={{
-      headerStyle: { backgroundColor: "#4169e1" },
-      headerTintColor: "#fff",
-      headerTitleStyle: { fontWeight: "bold" },
-    }}
-  >
-    <Tab.Screen
-      name="Home"
-      component={PostShop}
-      options={{ title: "DetailsStack" }}
-    />
-    <Tab.Screen name="Login" component={Login} />
-  </Tab.Navigator>
-);
+       headerTintColor: 'black',
+       headerStyle: { backgroundColor: 'white' },
+     }}>
+      <Stack.Screen name="Login" component={Login} options={{
+       //headerTransparent: true,
+       headerTitleAlign:"center",
+       //headerTintColor:"white",
+  }} />
+      <Stack.Screen name="ProfileShop" component={MyBottomNavigator} />
+      <Stack.Screen name="CreateAccount" component={RegisterScreen}  />
+    </Stack.Navigator>
+  );
+}
 
 export default function App() {
   return (
     <NavigationContainer>
-      <Drawer.Navigator>
-        <Drawer.Screen name="Login" component={Login} />
-        <Drawer.Screen name="PostShop" component={HomeStackScreen} />
-        <Drawer.Screen name="Pending Discount" component={ShopPendingScreen} />
-        <Drawer.Screen name="Use Discount " component={DiscountUsesScreen} />
-        <Drawer.Screen name="Create Post " component={CreatePostScreen} />
-      </Drawer.Navigator>
+      <MyStack/>
     </NavigationContainer>
   );
 }

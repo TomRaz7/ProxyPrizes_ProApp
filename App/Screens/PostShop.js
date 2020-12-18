@@ -1,25 +1,19 @@
-import React from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-  Image,
-  TouchableOpacity,
-  FlatList,
-  ActivityIndicator,
-} from "react-native";
-import PostShopTemplate from "./PostShopTemplate";
-import MesData from "./Data";
+
+import React from 'react';
+import {SafeAreaView,StyleSheet,ScrollView,View,Text,StatusBar,Button,Image,TouchableOpacity,FlatList,ActivityIndicator}from 'react-native';
+import {Header,LearnMoreLinks,Colors,DebugInstructions,ReloadInstructions} from 'react-native/Libraries/NewAppScreen';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
+import MesData from '../FakeData/Data';
+import PostShopTemplate from './PostShopTemplate'
 
 import EndpointConfig from "../server/EndpointConfig";
 
-//TODO
-// Link shop and owner ID based on login (current state is using 1)
-// Implement fusioned arrays to merge post data with shop information (shop id, photo, etc)
+class PostShop extends React.Component {
 
-export default class PostShop extends React.Component {
-  constructor(props) {
+	constructor(props) {
     super(props);
     this.state = {
       posts: [],
@@ -30,7 +24,7 @@ export default class PostShop extends React.Component {
     };
   }
 
-  // function to fetch all posts related to this shop
+    // function to fetch all posts related to this shop
   componentDidMount() {
     fetch(EndpointConfig.retrieveShopPosts, {
       method: "POST",
@@ -51,10 +45,11 @@ export default class PostShop extends React.Component {
       });
   }
 
-  render() {
+
+	 render() {
     if (this.state.dataLoaded === false) {
       return (
-        <View style={styles.activityIndicatorContainer}>
+        <View styles={{flex: 1,justifyContent: "center",}}>
           <ActivityIndicator color="#0000ff" size="large" />
         </View>
       );
@@ -72,9 +67,5 @@ export default class PostShop extends React.Component {
     }
   }
 }
-const styles = StyleSheet.create({
-  activityIndicatorContainer: {
-    flex: 1,
-    justifyContent: "center",
-  },
-});
+
+export default PostShop

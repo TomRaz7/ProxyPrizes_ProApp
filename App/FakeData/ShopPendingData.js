@@ -1,6 +1,6 @@
-export default MesData = [
+export default MesDatas = [
   {
-    id:'1',
+    id:1,
     shop:'1',
     status:'pending',
     percent:'10',
@@ -8,7 +8,7 @@ export default MesData = [
     validity:'2020-10-11'
   },
   {
-    id:'2',
+    id:2,
     shop:'2',
     status:'pending',
     percent:'11',
@@ -16,7 +16,7 @@ export default MesData = [
     validity:'2020-10-11'
   },
   {
-    id:'3',
+    id:3,
     shop:'2',
     status:'pending',
     percent:'12',

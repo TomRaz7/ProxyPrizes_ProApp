@@ -2,7 +2,7 @@
 export default MesData=[
   {
     id:1,
-    Title:'Title',
+    title:'Title',
     description:'This wonderfull Hoody is what you need to face winter !',
     picture:'https://picsum.photos/800/500',
     price:'20',
@@ -16,7 +16,7 @@ export default MesData=[
   },
   {
     id:2,
-    Title:'Godasse Adidas',
+    title:'Godasse Adidas',
     description:'This toy is the perfect gift for your child !',
     picture:'https://picsum.photos/800/500',
     price:'60',
@@ -30,7 +30,7 @@ export default MesData=[
 
   {
     id:3,
-    Title:'Godasse Adidas',
+    title:'Godasse Adidas',
     description:'This toy is the perfect gift for your child !',
     picture:'https://picsum.photos/800/500',
     price:'90',
