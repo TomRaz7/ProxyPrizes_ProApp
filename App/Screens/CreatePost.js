@@ -216,40 +216,43 @@ class CreatePost extends React.Component {
 
         <View
           style={{
-            flex: 5,
+            flex: 7,
             backgroundColor: "white",
             borderTopLeftRadius: 50,
             borderTopRightRadius: 50,
           }}
         >
-          <View style={{ flexDirection: "row", marginTop: 5, marginLeft: 30 }}>
+          <View style={{ flexDirection: "row", marginTop: 15, marginLeft: 30 }}>
             <Image
+              source={require("../assets/upload-image.jpg")}
               style={{
-                height: 150,
-                width: 150,
+                height: 90,
+                width: 90,
                 borderRadius: 200,
                 backgroundColor: "grey",
               }}
             />
 
-            <TouchableOpacity style={{ marginTop: "12%", marginLeft: 10 }}>
+            <TouchableOpacity style={{ alignSelf: "center", marginLeft: 10 }}>
               <Button
                 onPress={() => this.handleImage()}
                 title={"Upload picture"}
                 color="#4A86E8"
               />
-
-              <Image
-                source={require("../assets/camera.png")}
-                style={{ height: 30, width: 30, marginTop: 10, marginLeft: 90 }}
-              />
             </TouchableOpacity>
           </View>
 
-          <View style={{ marginHorizontal: 40, marginTop: -20 }}>
-            <TextInput placeholder="title" underlineColorAndroid="#4169e1" />
+          <View style={{ marginHorizontal: 40, marginTop: 20 }}>
+            <TextInput
+              style={{ marginTop: 10 }}
+              numberOfLines={2}
+              placeholder="Product title"
+              underlineColorAndroid="#4169e1"
+            />
 
             <TextInput
+              style={{ marginTop: 10 }}
+              numberOfLines={3}
               placeholder="Description"
               underlineColorAndroid="#4169e1"
             />
@@ -258,20 +261,26 @@ class CreatePost extends React.Component {
               items={categoryData}
               containerStyle={{ height: 40 }}
               placeholder={"Please select a category"}
-              style={{ backgroundColor: "#fafafa" }}
+              style={{ backgroundColor: "#fafafa", marginTop: 10 }}
               itemStyle={{
                 justifyContent: "flex-start",
               }}
               dropDownStyle={{ backgroundColor: "#fafafa" }}
             />
 
-            <TextInput placeholder="Price" underlineColorAndroid="#4169e1" />
+            <TextInput
+              style={{ marginTop: 10 }}
+              numberOfLines={2}
+              placeholder="Price"
+              underlineColorAndroid="#4169e1"
+            />
 
             <TouchableOpacity
               style={{ marginHorizontal: 80, borderRadius: 10, height: 40 }}
             >
               <Button
                 onPress={() => this.createPoste()}
+                color="#4A86E8"
                 title="Create Your Post"
               />
             </TouchableOpacity>

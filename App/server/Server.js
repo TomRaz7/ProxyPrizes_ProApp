@@ -5,12 +5,7 @@ var http = require("http");
 var bodyParser = require("body-parser");
 var jwt = require("jsonwebtoken");
 
-//Finished:
-// register/create account and shop (they are clustered in the same form)
-// create post with fully functional uploading image and inserting into the database
-// retrieve shop's posts
-// retrieve used discounts
-// retrieve pending discounts
+const fetch = require("node-fetch");
 
 //Config
 const port = process.env.SERVER_PORT;

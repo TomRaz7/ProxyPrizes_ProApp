@@ -9,6 +9,8 @@ export default {
   retrieveUsedDiscounts: url + "/retrieveUsedDiscounts",
   retrievePendingDiscounts: url + "/retrievePendingDiscounts",
   addExpoToken: url + "/addExpoToken",
+  retrieveExpoToken: url + "/retrieveExpoToken",
   getAvaliabilityRequest: url + "/getAvaliabilityRequest",
   answerAvaliabilityRequest: url + "/answerAvaliabilityRequest",
+  sendNotification: url + "/sendNotification",
 };

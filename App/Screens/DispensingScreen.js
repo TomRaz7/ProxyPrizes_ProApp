@@ -93,7 +93,12 @@ export default class DispensingScreen extends React.Component {
   answerAvaliability(action) {
     var answerData = {
       id: this.state.selectedItem,
+      userId: this.state.selectedCreator,
+      toWho: "single",
       avaliable: action,
+      expoToken: "",
+      notificationTitle: "A shop responded to your request!",
+      notificationBody: "Check your requests",
     };
 
     fetch(EndpointConfig.answerAvaliabilityRequest, {
@@ -107,7 +112,46 @@ export default class DispensingScreen extends React.Component {
       .then((response) => response.json())
       .then((responseJson) => {
         console.log(responseJson);
+
+        fetch(EndpointConfig.retrieveExpoToken, {
+          method: "POST",
+          body: JSON.stringify(answerData),
+          headers: {
+            Accept: "application/json",
+            "content-type": "application/json",
+          },
+        })
+          .then((response) => response.json())
+          .then((responseJson) => {
+            if (
+              responseJson[0].expoToken !== "empty" &&
+              responseJson[0].expoToken !== "undefined"
+            ) {
+              console.log("Token retrieved from user!");
+              answerData.expoToken = responseJson[0].expoToken;
+
+              fetch(EndpointConfig.sendNotification, {
+                method: "POST",
+                body: JSON.stringify(answerData),
+                headers: {
+                  Accept: "application/json",
+                  "content-type": "application/json",
+                },
+              })
+                .then((response) => response.json())
+                .then((responseJson) => {
+                  console.log("End of process ask avaliability");
+                });
+            } else {
+              console.log(
+                "This user does not have an token registered so the notification won't be sent."
+              );
+              return;
+            }
+          });
       });
+
+    this.setState({ isModalVisible: false });
   }
 
   render() {
