@@ -1,38 +1,37 @@
 import React from "react";
 import { StyleSheet, View, Text, Image } from "react-native";
 
-class ShopPendingTemplate extends React.Component {
+class ShopUsedTemplate extends React.Component {
   render() {
-    console.log(this.props.id);
-    const ShopPendingProps = this.props.MaPropsShopPending;
+    const ShopUsedProps = this.props.MaPropsShopUsed.item;
     return (
       <View>
         <View
           style={{
             flexDirection: "row",
             marginTop: 15,
+            borderRadius: 10,
             marginLeft: 10,
             marginRight: 10,
-            borderRadius: 10,
             elevation: 1,
             backgroundColor: "#4169e1",
             height: 30,
           }}
         >
           <Text style={{ marginLeft: 15, color: "white" }}>
-            id: {ShopPendingProps.id}
+            id: {ShopUsedProps.id}
           </Text>
           <Text style={{ marginLeft: 15, color: "white" }}>
-            {ShopPendingProps.status}
+            {ShopUsedProps.status}
           </Text>
           <Text style={{ marginLeft: 15, color: "white" }}>
-            Value: {ShopPendingProps.percent} %
+            Value: {ShopUsedProps.percent} %
           </Text>
           <Text style={{ marginLeft: 15, color: "white" }}>
-            User: {ShopPendingProps.beneficiary}
+            User: {ShopUsedProps.beneficiary}
           </Text>
           <Text style={{ marginLeft: 15, color: "white" }}>
-            Exp:{ShopPendingProps.validity}
+            Exp:{ShopUsedProps.validity}
           </Text>
         </View>
       </View>
@@ -40,4 +39,4 @@ class ShopPendingTemplate extends React.Component {
   }
 }
 
-export default ShopPendingTemplate;
+export default ShopUsedTemplate;

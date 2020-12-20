@@ -1,19 +1,34 @@
-
-import React from 'react';
-import {SafeAreaView,StyleSheet,ScrollView,View,Text,StatusBar,Button,Image,TouchableOpacity,TextInput,Alert}from 'react-native';
-import {Header,LearnMoreLinks,Colors,DebugInstructions,ReloadInstructions} from 'react-native/Libraries/NewAppScreen';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { createDrawerNavigator } from '@react-navigation/drawer';
-import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
+import React from "react";
+import {
+  SafeAreaView,
+  StyleSheet,
+  ScrollView,
+  View,
+  Text,
+  StatusBar,
+  Button,
+  Image,
+  TouchableOpacity,
+  TextInput,
+  Alert,
+} from "react-native";
+import {
+  Header,
+  LearnMoreLinks,
+  Colors,
+  DebugInstructions,
+  ReloadInstructions,
+} from "react-native/Libraries/NewAppScreen";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import { createDrawerNavigator } from "@react-navigation/drawer";
+import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import DropDownPicker from "react-native-dropdown-picker";
 
 import * as ImagePicker from "expo-image-picker";
 import { RNS3 } from "react-native-aws3";
 
 import EndpointConfig from "../server/EndpointConfig";
-
-
 
 let openImagePickerAsync = async () => {
   let permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
@@ -75,8 +90,7 @@ function getRandomString(length) {
 let todayDate = new Date().toISOString().slice(0, 19).replace("T", " ");
 
 class CreatePost extends React.Component {
-
- constructor(props) {
+  constructor(props) {
     super(props);
     this.state = {
       title: "",
@@ -115,8 +129,8 @@ class CreatePost extends React.Component {
   createPoste() {
     if (this.state.imagestate == true) this.uploadImage();
     else this.addPost(this.state);
-       console.log("reussi")
-       Alert.alert("cool")
+    console.log("reussi");
+    Alert.alert("cool");
   }
 
   uploadImage() {
@@ -166,92 +180,105 @@ class CreatePost extends React.Component {
     })();
   };
 
-
-
-  render(){
-  return(
-    <View
-    style={{flex:1, backgroundColor:'#4A86E8',}}>
-        <View style={{flexDirection:'row',marginTop:10, justifyContent:'center',}}>
-            <Image
-            source={require('/Users/mfoulouyvesmarcel/Desktop/ProAppClone/ProxyPrizes_ProApp/App/assets/icon_v1_proxi.png')}
-            style={{width:100, height:100,}}/>
-            <Text
-            style={{marginTop:35, fontSize:40, fontWeight:'bold', color:'white'}}>ProxyPrizes</Text>
+  render() {
+    return (
+      <View style={{ flex: 1, backgroundColor: "#4A86E8" }}>
+        <View
+          style={{
+            flexDirection: "row",
+            marginTop: 10,
+            justifyContent: "center",
+          }}
+        >
+          <Image
+            source={require("../assets/icon_v1_proxi.png")}
+            style={{ width: 100, height: 100 }}
+          />
+          <Text
+            style={{
+              marginTop: 35,
+              fontSize: 40,
+              fontWeight: "bold",
+              color: "white",
+            }}
+          >
+            ProxyPrizes
+          </Text>
         </View>
 
-    <View style={{flex:1, backgroundColor:'#4A86E8',alignItems:'center'}}>
-        <Text
-         style={{fontSize:14, color:'white'}}>Welcome to the Form creation of your Post</Text>
-    </View>
+        <View
+          style={{ flex: 1, backgroundColor: "#4A86E8", alignItems: "center" }}
+        >
+          <Text style={{ fontSize: 14, color: "white" }}>
+            Welcome to the Form creation of your Post
+          </Text>
+        </View>
 
-    <View
-     style={{flex:5, backgroundColor:'white',borderTopLeftRadius:50, borderTopRightRadius:50,}}>
-      <View style={{flexDirection:'row', marginTop:5, marginLeft:30}}>
-      <Image
-        style={{height: 150,width: 150,borderRadius: 200,backgroundColor: "grey",}}
-      />
+        <View
+          style={{
+            flex: 5,
+            backgroundColor: "white",
+            borderTopLeftRadius: 50,
+            borderTopRightRadius: 50,
+          }}
+        >
+          <View style={{ flexDirection: "row", marginTop: 5, marginLeft: 30 }}>
+            <Image
+              style={{
+                height: 150,
+                width: 150,
+                borderRadius: 200,
+                backgroundColor: "grey",
+              }}
+            />
 
-      <TouchableOpacity
-      style={{marginTop:'12%', marginLeft:10}}>
-        <Button
-          onPress={() => this.handleImage()}
-          title={"Upload picture"}
-          color="#4A86E8"
-        />
+            <TouchableOpacity style={{ marginTop: "12%", marginLeft: 10 }}>
+              <Button
+                onPress={() => this.handleImage()}
+                title={"Upload picture"}
+                color="#4A86E8"
+              />
 
-        <Image
-          source={require("/Users/mfoulouyvesmarcel/Desktop/ProAppClone/ProxyPrizes_ProApp/App/assets/camera.png")}
-          style={{ height: 30, width: 30, marginTop: 10, marginLeft:90}}
-        />
-      </TouchableOpacity>
+              <Image
+                source={require("../assets/camera.png")}
+                style={{ height: 30, width: 30, marginTop: 10, marginLeft: 90 }}
+              />
+            </TouchableOpacity>
+          </View>
+
+          <View style={{ marginHorizontal: 40, marginTop: -20 }}>
+            <TextInput placeholder="title" underlineColorAndroid="#4169e1" />
+
+            <TextInput
+              placeholder="Description"
+              underlineColorAndroid="#4169e1"
+            />
+
+            <DropDownPicker
+              items={categoryData}
+              containerStyle={{ height: 40 }}
+              placeholder={"Please select a category"}
+              style={{ backgroundColor: "#fafafa" }}
+              itemStyle={{
+                justifyContent: "flex-start",
+              }}
+              dropDownStyle={{ backgroundColor: "#fafafa" }}
+            />
+
+            <TextInput placeholder="Price" underlineColorAndroid="#4169e1" />
+
+            <TouchableOpacity
+              style={{ marginHorizontal: 80, borderRadius: 10, height: 40 }}
+            >
+              <Button
+                onPress={() => this.createPoste()}
+                title="Create Your Post"
+              />
+            </TouchableOpacity>
+          </View>
+        </View>
       </View>
-
-      <View style={{marginHorizontal:40, marginTop:-20}}>
-      <TextInput
-        placeholder="title"
-        underlineColorAndroid="#4169e1"
-      />
-
-      <TextInput
-        placeholder="Description"
-        underlineColorAndroid="#4169e1"
-      />
-
-      <DropDownPicker
-        items={categoryData}
-        containerStyle={{ height: 40 }}
-        placeholder={"Please select a category"}
-        style={{ backgroundColor: "#fafafa" }}
-        itemStyle={{
-          justifyContent: "flex-start",
-        }}
-        dropDownStyle={{ backgroundColor: "#fafafa" }}
-      />
-
-      <TextInput
-        placeholder="Price"
-        underlineColorAndroid="#4169e1"
-      />
-
-      <TouchableOpacity
-        style={{marginHorizontal: 80,borderRadius: 10,height: 40,
-        }}
-        
-      >
-        <Button
-        onPress={() => this.createPoste()}
-        title="Create Your Post"/>
-      </TouchableOpacity>
-
-      </View>
-
-
-      </View>
-
-
-    </View>
-    )
+    );
+  }
 }
-}
-export default CreatePost
+export default CreatePost;

@@ -18,10 +18,12 @@
     "dotenv": "^8.2.0",
     "expo": "~39.0.2",
     "expo-image-picker": "~9.1.1",
+    "expo-notifications": "~0.7.2",
     "expo-status-bar": "~1.0.2",
     "express": "^4.17.1",
     "http": "0.0.1-security",
     "jsonwebtoken": "^8.5.1",
+    "moment": "^2.29.1",
     "mysql": "^2.18.1",
     "react": "16.13.1",
     "react-dom": "16.13.1",
@@ -29,10 +31,17 @@
     "react-native-aws3": "0.0.9",
     "react-native-dropdown-picker": "^3.7.1",
     "react-native-gesture-handler": "^1.8.0",
+    "react-native-modal": "^11.6.1",
     "react-native-paper": "^4.5.0",
     "react-native-reanimated": "^1.13.2",
     "react-native-screens": "^2.15.0",
-    "react-native-web": "~0.13.12"
+    "react-native-timeago": "^0.5.0",
+    "react-native-web": "~0.13.12",
+    "react-redux": "^7.2.2",
+    "react-time-ago": "^6.2.2",
+    "redux": "^4.0.5",
+    "redux-persist": "^6.0.0",
+    "redux-persist-expo-fs-storage": "^2.1.0"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0"

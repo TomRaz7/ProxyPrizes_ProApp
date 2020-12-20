@@ -94,6 +94,41 @@ server.post("/createAccount", function (req, res) {
   );
 });
 
+//Login function
+server.post("/login", function (req, res) {
+  console.log("login endpoint hitted");
+  var tableToQUery = req.body.table;
+  var userMail = req.body.email;
+  var userPassword = req.body.password;
+
+  if (tableToQUery === "owner") {
+    connection.query(
+      `SELECT * FROM owner WHERE email = '${userMail}' AND password = '${userPassword}';`,
+      function (error, rows, fields) {
+        if (error) {
+          console.log(error);
+        } else {
+          if (rows[0] !== undefined) {
+            var user = rows[0];
+            console.log(user);
+            jwt.sign({ user: user }, "secretKey", (err, token) => {
+              res.json({
+                code: 200,
+                user: user,
+                token: token,
+              });
+            });
+          } else {
+            res.json({
+              code: 404,
+            });
+          }
+        }
+      }
+    );
+  }
+});
+
 server.post("/addPost", function (req, res) {
   console.log(req.body);
   var data = {
@@ -118,6 +153,24 @@ server.post("/addPost", function (req, res) {
   });
 });
 
+// delete post function
+server.post("/deletePost", function (req, res) {
+  console.log("/deletePost hitted");
+  var postId = req.body.postId;
+
+  var dbQuery = `DELETE FROM post WHERE id =${postId};`;
+
+  connection.query(dbQuery, function (error, rows, fields) {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log("Post deleted.");
+      //console.log(rows);
+      res.send(rows);
+    }
+  });
+});
+
 //get s3 credentials
 server.get("/getS3", (req, res) => {
   const answer = {
@@ -138,8 +191,8 @@ server.post("/retrieveShopPosts", function (req, res) {
       if (error) {
         console.log(error);
       } else {
-        console.log(`Posts from the shop:`);
-        console.log(rows);
+        //console.log(`Posts from the shop:`);
+        //console.log(rows);
         res.send(rows);
       }
     }
@@ -156,8 +209,9 @@ server.post("/retrieveUsedDiscounts", function (req, res) {
       if (error) {
         console.log(error);
       } else {
-        console.log("Used discounts:");
-        console.log(rows);
+        //console.log("Used discounts:");
+        console.log("Used discounts retrieved.");
+        //console.log(rows);
         res.send(rows);
       }
     }
@@ -174,10 +228,117 @@ server.post("/retrievePendingDiscounts", function (req, res) {
       if (error) {
         console.log(error);
       } else {
-        console.log("Pending discounts:");
-        console.log(rows);
+        //console.log("Pending discounts:");
+        console.log("Pending discounts retrieved.");
+        //console.log(rows);
         res.send(rows);
       }
     }
   );
+});
+
+server.post("/getAvaliabilityRequest", function (req, res) {
+  console.log("/getAvaliabilityRequest hitted");
+  var shop = req.body.shop;
+  connection.query(
+    `SELECT * FROM request WHERE shop = ${shop} AND status = 'pending';`,
+    function (error, rows, fields) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log("getAvaliabilityRequest OK.");
+        res.send(rows);
+      }
+    }
+  );
+});
+
+server.post("/answerAvaliabilityRequest", function (req, res) {
+  console.log("/answerAvaliabilityRequest hitted");
+  var id = req.body.id;
+  var avaliable = req.body.avaliable;
+
+  if (avaliable === "avaliable") {
+    var dbQuery = `UPDATE request SET status = 'answered', answer = 'avaliable' WHERE id = ${id};`;
+  } else if (avaliable === "not avaliable") {
+    var dbQuery = `UPDATE request SET status = 'answered', answer = 'not avaliable' WHERE id = ${id};`;
+  }
+  connection.query(dbQuery, function (error, rows, fields) {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log("answerAvaliabilityRequest OK.");
+      res.send(rows);
+    }
+  });
+});
+
+server.post("/retrieveExpoToken", function (req, res) {
+  console.log("/retrieveExpoToken hitted");
+  var userId = req.body.userId;
+  var action = req.body.toWho;
+
+  if (action === "single") {
+    var dbQuery = `SELECT expoToken FROM customer WHERE id = ${userId};`;
+  } else if (action === "all") {
+    var dbQuery = `SELECT expoToken FROM customer;`;
+  }
+
+  connection.query(dbQuery, function (error, rows, fields) {
+    if (error) {
+      console.log(error);
+    } else {
+      //console.log("Table updated!");
+      console.log("retrieveExpoToken OK");
+      //console.log(rows[0].expoToken);
+      res.send(rows);
+    }
+  });
+});
+
+server.post("/addExpoToken", function (req, res) {
+  console.log("/addExpoToken hitted");
+  var user = req.body.userId;
+  var expoToken = req.body.expoToken;
+  connection.query(
+    `UPDATE owner SET expoToken='${expoToken}' WHERE id =${user};`,
+    function (error, rows, fields) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log("Table updated! (expoToken)");
+        //console.log(rows);
+        res.send(rows);
+      }
+    }
+  );
+});
+
+server.post("/sendNotification", function (req, res) {
+  console.log("/sendNotification hitted");
+  // create the content of the notifications
+  const message = {
+    to: req.body.expoToken, // token of device that will receive notifications
+    sound: "default",
+    title: req.body.notificationTitle, // title
+    body: req.body.notificationBody, // body
+  };
+  console.log(message);
+  // Sends notification to the expo server, then he will deliver it within 30min
+  fetch("https://exp.host/--/api/v2/push/send", {
+    method: "POST",
+    body: JSON.stringify(message),
+    headers: {
+      host: "exp.host",
+      accept: "application/json",
+      "Accept-encoding": "gzip, deflate",
+      "Content-Type": "application/json",
+    },
+  })
+    .then((response) => response.json())
+    .then((responseJson) => {
+      console.log(responseJson);
+      // sends the response, with status and receipt id (for checking wheter or not the device received the notification)
+      res.send(responseJson);
+    });
 });
