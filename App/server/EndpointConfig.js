@@ -14,4 +14,5 @@ export default {
   getAvaliabilityRequest: url + "/getAvaliabilityRequest",
   answerAvaliabilityRequest: url + "/answerAvaliabilityRequest",
   sendNotification: url + "/sendNotification",
+  persistNewDiscount: url + "/persistNewDiscount"
 };

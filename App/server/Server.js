@@ -181,7 +181,7 @@ server.post("/retrieveShopPosts", function (req, res) {
   var owner = req.body.owner;
   console.log(shop);
   connection.query(
-    `SELECT * FROM post WHERE shop = ${shop} AND owner = ${owner};`,
+    `SELECT * FROM post WHERE shop = ${shop};`,
     function (error, rows, fields) {
       if (error) {
         console.log(error);
@@ -336,4 +336,23 @@ server.post("/sendNotification", function (req, res) {
       // sends the response, with status and receipt id (for checking wheter or not the device received the notification)
       res.send(responseJson);
     });
+});
+
+server.post("/persistNewDiscount", function(req,res){
+  console.log("/persistNewDiscount hitted");
+  console.log(req.body);
+  var validity = new Date().toJSON().slice(0, 10);
+  var status = 'pending';
+  var percent = req.body.discountValue;
+  var shop = req.body.shop;
+  var beneficiary = req.body.beneficiary;
+  connection.query(`INSERT INTO discount( percent, validity, status, beneficiary, shop) VALUES (${percent},${validity},'${status}',${beneficiary},${shop});`, function(error, rows, fields){
+    if(error){
+      console.log(error);
+    }
+    else{
+      console.log("Discount inserted");
+      res.send(rows);
+    }
+  });
 });

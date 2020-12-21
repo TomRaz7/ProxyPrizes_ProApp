@@ -9,6 +9,7 @@ import {
   ImageBackground,
   Modal,
   TouchableHighlight,
+  Alert
 } from "react-native";
 import EndpointConfig from "../server/EndpointConfig";
 
@@ -81,6 +82,44 @@ class PostShopTemplate extends React.Component {
       console.log(responseJson);
     })
 
+    //this.setState({ modalVisible: false });
+  }
+
+  persistDiscountInDb(){
+    console.log('persist');
+    if(this.state.prop.customer !== null){
+      fetch(EndpointConfig.persistNewDiscount,{
+        method:'POST',
+        body:JSON.stringify({
+          shop:this.state.prop.shop,
+          beneficiary:this.state.prop.customer,
+          discountValue:this.state.discountRewardValue
+        }),
+        headers: {
+          Accept: "application/json",
+          "content-type": "application/json",
+        }
+      })
+      .then(response => response.json())
+      .then(responseJson => {
+        console.log(responseJson);
+      })
+    }
+    else {
+      Alert.alert(
+        "This post belongs to you !",
+        "This post belongs to you you can not reward your own posts",
+        [
+          {
+            text: "Cancel",
+            onPress: () => console.log("Cancel Pressed"),
+            style: "cancel"
+          },
+          { text: "OK", onPress: () => console.log("OK Pressed") }
+        ],
+        { cancelable: false }
+      );
+    }
     this.setState({ modalVisible: false });
   }
 
@@ -166,11 +205,12 @@ class PostShopTemplate extends React.Component {
          <View style={styles.centeredView}>
            <View style={styles.modalView}>
              <Text style={styles.modalText}>Reward this post </Text>
-             <TextInput style={styles.textInput} placeholder={'Reward in %'} onChangeText={(text) => this.setState({discountRewardValue:text})} keyBoardType='decimal-pad' underlineColorAndroid="#4A86E8"/>
+             <TextInput style={styles.textInput} placeholder={'Reward in %'} onChangeText={(text) => this.setState({discountRewardValue:text})}  keyBoardType='numeric' underlineColorAndroid="#4A86E8"/>
              <TouchableHighlight
                style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
                onPress={() => {
                  this.sendDiscountNotification();
+                 this.persistDiscountInDb();
                }}
              >
                <Text style={styles.textStyle}>Proceed discount</Text>
