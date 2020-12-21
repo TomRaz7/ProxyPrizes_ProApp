@@ -7,13 +7,89 @@ import {
   Image,
   TouchableOpacity,
   ImageBackground,
+  Modal,
+  TouchableHighlight,
 } from "react-native";
+import EndpointConfig from "../server/EndpointConfig";
 
 import TimeAgo from "react-native-timeago";
 
 class PostShopTemplate extends React.Component {
-  render() {
+
+  constructor(props){
+    super(props)
+    this.state={
+      modalVisible:false,
+      discountRewardValue:0,
+      userId:1,//should implement a Redux storage in the pro App as well for the final presentation
+      expoToken:null,
+      prop:this.props.prop
+    }
+  }
+  componentDidMount(){
+    console.log('les props du component');
     console.log(this.props);
+    this.retrieveExpoPushTokenFromDB();
+  }
+
+
+  retrieveExpoPushTokenFromDB(){
+    var destinary = null;
+    if(this.state.prop.customer !== null){
+      destinary = this.state.prop.customer;
+    }
+    else{
+      destinary = this.state.userId
+    }
+    fetch(EndpointConfig.retrieveExpoToken,{
+      method:'POST',
+      body:JSON.stringify({
+        userId:destinary,
+        toWho:'single'
+      }),
+      headers:{
+             Accept: 'application/json',
+             'content-type':'application/json'
+           }
+    })
+    .then(response => response.json())
+    .then(responseJson => {
+      console.log(responseJson[0].expoToken);
+      this.setState({
+        expoToken:responseJson[0].expoToken
+      });
+    })
+  }
+
+  sendDiscountNotification(){
+    console.log('notification côté client');
+    fetch(EndpointConfig.sendNotification,{
+      method:'POST',
+      body:JSON.stringify({
+        expoToken:this.state.expoToken,
+        notificationTitle:'You\'ve just received anew discount',
+        notificationBody:`You received a ${this.state.discountRewardValue} % discount`
+      }),
+      headers: {
+        Accept: "application/json",
+        "content-type": "application/json",
+      },
+    })
+    .then(response => response.json())
+    .then(responseJson => {
+      console.log("La réponse json");
+      console.log(responseJson);
+    })
+
+    this.setState({ modalVisible: false });
+  }
+
+  setModalVisible = (visible) => {
+    this.setState({ modalVisible: visible });
+  }
+
+  render() {
+
     const MesProps = this.props.prop;
     return (
       <View>
@@ -26,6 +102,7 @@ class PostShopTemplate extends React.Component {
             backgroundColor: "white",
             height: 400,
           }}
+          onPress={() => this.setState({modalVisible:true})}
         >
           <View style={{ flexDirection: "row" }}>
             <Image
@@ -77,6 +154,38 @@ class PostShopTemplate extends React.Component {
             </View>
           </View>
         </TouchableOpacity>
+
+        <Modal
+         animationType="slide"
+         transparent={true}
+         visible={this.state.modalVisible}
+         onRequestClose={() => {
+           Alert.alert("Modal has been closed.");
+         }}
+        >
+         <View style={styles.centeredView}>
+           <View style={styles.modalView}>
+             <Text style={styles.modalText}>Reward this post </Text>
+             <TextInput style={styles.textInput} placeholder={'Reward in %'} onChangeText={(text) => this.setState({discountRewardValue:text})} keyBoardType='decimal-pad' underlineColorAndroid="#4A86E8"/>
+             <TouchableHighlight
+               style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
+               onPress={() => {
+                 this.sendDiscountNotification();
+               }}
+             >
+               <Text style={styles.textStyle}>Proceed discount</Text>
+             </TouchableHighlight>
+             <TouchableHighlight
+               style={{ ...styles.openButton, backgroundColor: "#EA4C46" }}
+               onPress={() => {
+                 this.setModalVisible(!this.state.modalVisible);
+               }}
+             >
+               <Text style={styles.textStyle}>Cancel</Text>
+             </TouchableHighlight>
+           </View>
+         </View>
+        </Modal>
       </View>
     );
   }
@@ -87,6 +196,47 @@ const styles = StyleSheet.create({
     color: "#808080",
     marginLeft: 5,
   },
+  textInput:{
+    height:40,
+    paddingLeft:6
+  },
+  centeredView: {
+   flex: 1,
+   justifyContent: "center",
+   alignItems: "center",
+   marginTop: 22
+ },
+ modalView: {
+   margin: 20,
+   backgroundColor: "white",
+   borderRadius: 20,
+   padding: 35,
+   alignItems: "center",
+   shadowColor: "#000",
+   shadowOffset: {
+     width: 0,
+     height: 2
+   },
+   shadowOpacity: 0.25,
+   shadowRadius: 3.84,
+   elevation: 5
+ },
+ openButton: {
+   backgroundColor: "#F194FF",
+   borderRadius: 20,
+   padding: 10,
+   elevation: 2,
+   margin:10
+ },
+ textStyle: {
+   color: "white",
+   fontWeight: "bold",
+   textAlign: "center"
+ },
+ modalText: {
+   marginBottom: 15,
+   textAlign: "center"
+ }
 });
 
 export default PostShopTemplate;

@@ -11,6 +11,8 @@ import {
   TouchableOpacity,
   FlatList,
   ActivityIndicator,
+  Modal,
+  TouchableHighlight
 } from "react-native";
 import {
   Header,
@@ -42,8 +44,12 @@ class PostShop extends React.Component {
       shop: 1,
       owner: 1,
       ownerExpoToken: "",
+      modalVisible:false,
+      discountNotificationDestinary:null
     };
   }
+
+
 
   // function to fetch all posts related to this shop
   async componentDidMount() {
@@ -67,6 +73,7 @@ class PostShop extends React.Component {
 
     await this.getExpoToken();
   }
+
 
   getExpoToken = async () => {
     var tokenData = {
