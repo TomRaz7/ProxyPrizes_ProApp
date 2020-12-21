@@ -122,15 +122,13 @@ class CreatePost extends React.Component {
       .then((responseJson) => {
         console.log("Results do addpost: ");
         console.log(responseJson);
-        //this.props.navigation.navigate("PostScrollList");
+        this.props.navigation.navigate("PostShop");
       });
   }
 
   createPoste() {
     if (this.state.imagestate == true) this.uploadImage();
     else this.addPost(this.state);
-    console.log("reussi");
-    Alert.alert("cool");
   }
 
   uploadImage() {

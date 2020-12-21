@@ -178,7 +178,7 @@ server.get("/getS3", (req, res) => {
 // retrieve posts related to this shop
 server.post("/retrieveShopPosts", function (req, res) {
   var shop = req.body.shop;
-  var owner = req.body.owner;
+  //var owner = req.body.owner;
   console.log(shop);
   connection.query(
     `SELECT * FROM post WHERE shop = ${shop};`,
@@ -333,26 +333,29 @@ server.post("/sendNotification", function (req, res) {
     .then((response) => response.json())
     .then((responseJson) => {
       console.log(responseJson);
+      console.log("Notification sent to " + message.to);
       // sends the response, with status and receipt id (for checking wheter or not the device received the notification)
       res.send(responseJson);
     });
 });
 
-server.post("/persistNewDiscount", function(req,res){
+server.post("/persistNewDiscount", function (req, res) {
   console.log("/persistNewDiscount hitted");
   console.log(req.body);
-  var validity = new Date().toJSON().slice(0, 10);
-  var status = 'pending';
+  var validity = req.body.validity;
+  var status = "pending";
   var percent = req.body.discountValue;
   var shop = req.body.shop;
   var beneficiary = req.body.beneficiary;
-  connection.query(`INSERT INTO discount( percent, validity, status, beneficiary, shop) VALUES (${percent},${validity},'${status}',${beneficiary},${shop});`, function(error, rows, fields){
-    if(error){
-      console.log(error);
+  connection.query(
+    `INSERT INTO discount( percent, validity, status, beneficiary, shop) VALUES (${percent},'${validity}','${status}',${beneficiary},${shop});`,
+    function (error, rows, fields) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log("Discount inserted");
+        res.send(rows);
+      }
     }
-    else{
-      console.log("Discount inserted");
-      res.send(rows);
-    }
-  });
+  );
 });

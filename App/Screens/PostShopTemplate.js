@@ -3,109 +3,110 @@ import {
   StyleSheet,
   Text,
   View,
+  Date,
   TextInput,
   Image,
   TouchableOpacity,
   ImageBackground,
   Modal,
   TouchableHighlight,
-  Alert
+  Alert,
 } from "react-native";
 import EndpointConfig from "../server/EndpointConfig";
 
 import TimeAgo from "react-native-timeago";
 
-class PostShopTemplate extends React.Component {
+let todayDate = new Date().toISOString().slice(0, 19).replace("T", " ");
 
-  constructor(props){
-    super(props)
-    this.state={
-      modalVisible:false,
-      discountRewardValue:0,
-      userId:1,//should implement a Redux storage in the pro App as well for the final presentation
-      expoToken:null,
-      prop:this.props.prop
-    }
+class PostShopTemplate extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      modalVisible: false,
+      discountRewardValue: 0,
+      userId: 1, //should implement a Redux storage in the pro App as well for the final presentation
+      expoToken: null,
+      prop: this.props.prop,
+    };
   }
-  componentDidMount(){
-    console.log('les props du component');
+  componentDidMount() {
+    console.log("les props du component");
     console.log(this.props);
     this.retrieveExpoPushTokenFromDB();
   }
 
-
-  retrieveExpoPushTokenFromDB(){
+  retrieveExpoPushTokenFromDB() {
+    console.log(this.state.prop);
     var destinary = null;
-    if(this.state.prop.customer !== null){
+    if (this.state.prop.customer !== null) {
       destinary = this.state.prop.customer;
+    } else {
+      destinary = this.state.userId;
     }
-    else{
-      destinary = this.state.userId
-    }
-    fetch(EndpointConfig.retrieveExpoToken,{
-      method:'POST',
-      body:JSON.stringify({
-        userId:destinary,
-        toWho:'single'
-      }),
-      headers:{
-             Accept: 'application/json',
-             'content-type':'application/json'
-           }
-    })
-    .then(response => response.json())
-    .then(responseJson => {
-      console.log(responseJson[0].expoToken);
-      this.setState({
-        expoToken:responseJson[0].expoToken
-      });
-    })
-  }
-
-  sendDiscountNotification(){
-    console.log('notification côté client');
-    fetch(EndpointConfig.sendNotification,{
-      method:'POST',
-      body:JSON.stringify({
-        expoToken:this.state.expoToken,
-        notificationTitle:'You\'ve just received anew discount',
-        notificationBody:`You received a ${this.state.discountRewardValue} % discount`
+    fetch(EndpointConfig.retrieveExpoToken, {
+      method: "POST",
+      body: JSON.stringify({
+        userId: destinary,
+        toWho: "single",
       }),
       headers: {
         Accept: "application/json",
         "content-type": "application/json",
       },
     })
-    .then(response => response.json())
-    .then(responseJson => {
-      console.log("La réponse json");
-      console.log(responseJson);
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log(responseJson[0].expoToken);
+        this.setState({
+          expoToken: responseJson[0].expoToken,
+        });
+      });
+  }
+
+  sendDiscountNotification() {
+    console.log("notification côté client");
+    fetch(EndpointConfig.sendNotification, {
+      method: "POST",
+      body: JSON.stringify({
+        expoToken: this.state.expoToken,
+        notificationTitle: "You've just received anew discount",
+        notificationBody: `You received a ${this.state.discountRewardValue} % discount`,
+      }),
+      headers: {
+        Accept: "application/json",
+        "content-type": "application/json",
+      },
     })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log("La réponse json");
+        console.log(responseJson);
+      });
 
     //this.setState({ modalVisible: false });
   }
 
-  persistDiscountInDb(){
-    console.log('persist');
-    if(this.state.prop.customer !== null){
-      fetch(EndpointConfig.persistNewDiscount,{
-        method:'POST',
-        body:JSON.stringify({
-          shop:this.state.prop.shop,
-          beneficiary:this.state.prop.customer,
-          discountValue:this.state.discountRewardValue
+  persistDiscountInDb() {
+    console.log("persist");
+    if (this.state.prop.customer !== null) {
+      fetch(EndpointConfig.persistNewDiscount, {
+        method: "POST",
+        body: JSON.stringify({
+          shop: this.state.prop.shop,
+          beneficiary: this.state.prop.customer,
+          discountValue: this.state.discountRewardValue,
+          validity: todayDate,
         }),
         headers: {
           Accept: "application/json",
           "content-type": "application/json",
-        }
+        },
       })
-      .then(response => response.json())
-      .then(responseJson => {
-        console.log(responseJson);
-      })
-    }
-    else {
+        .then((response) => response.json())
+        .then((responseJson) => {
+          console.log(responseJson);
+        });
+    } else {
       Alert.alert(
         "This post belongs to you !",
         "This post belongs to you you can not reward your own posts",
@@ -113,9 +114,9 @@ class PostShopTemplate extends React.Component {
           {
             text: "Cancel",
             onPress: () => console.log("Cancel Pressed"),
-            style: "cancel"
+            style: "cancel",
           },
-          { text: "OK", onPress: () => console.log("OK Pressed") }
+          { text: "OK", onPress: () => console.log("OK Pressed") },
         ],
         { cancelable: false }
       );
@@ -125,10 +126,9 @@ class PostShopTemplate extends React.Component {
 
   setModalVisible = (visible) => {
     this.setState({ modalVisible: visible });
-  }
+  };
 
   render() {
-
     const MesProps = this.props.prop;
     return (
       <View>
@@ -141,7 +141,7 @@ class PostShopTemplate extends React.Component {
             backgroundColor: "white",
             height: 400,
           }}
-          onPress={() => this.setState({modalVisible:true})}
+          onPress={() => this.setState({ modalVisible: true })}
         >
           <View style={{ flexDirection: "row" }}>
             <Image
@@ -195,36 +195,44 @@ class PostShopTemplate extends React.Component {
         </TouchableOpacity>
 
         <Modal
-         animationType="slide"
-         transparent={true}
-         visible={this.state.modalVisible}
-         onRequestClose={() => {
-           Alert.alert("Modal has been closed.");
-         }}
+          animationType="slide"
+          transparent={true}
+          visible={this.state.modalVisible}
+          onRequestClose={() => {
+            Alert.alert("Modal has been closed.");
+          }}
         >
-         <View style={styles.centeredView}>
-           <View style={styles.modalView}>
-             <Text style={styles.modalText}>Reward this post </Text>
-             <TextInput style={styles.textInput} placeholder={'Reward in %'} onChangeText={(text) => this.setState({discountRewardValue:text})}  keyBoardType='numeric' underlineColorAndroid="#4A86E8"/>
-             <TouchableHighlight
-               style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
-               onPress={() => {
-                 this.sendDiscountNotification();
-                 this.persistDiscountInDb();
-               }}
-             >
-               <Text style={styles.textStyle}>Proceed discount</Text>
-             </TouchableHighlight>
-             <TouchableHighlight
-               style={{ ...styles.openButton, backgroundColor: "#EA4C46" }}
-               onPress={() => {
-                 this.setModalVisible(!this.state.modalVisible);
-               }}
-             >
-               <Text style={styles.textStyle}>Cancel</Text>
-             </TouchableHighlight>
-           </View>
-         </View>
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <Text style={styles.modalText}>Reward this post </Text>
+              <TextInput
+                style={styles.textInput}
+                placeholder={"Reward in %"}
+                onChangeText={(text) =>
+                  this.setState({ discountRewardValue: text })
+                }
+                keyBoardType="numeric"
+                underlineColorAndroid="#4A86E8"
+              />
+              <TouchableHighlight
+                style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
+                onPress={() => {
+                  this.sendDiscountNotification();
+                  this.persistDiscountInDb();
+                }}
+              >
+                <Text style={styles.textStyle}>Proceed discount</Text>
+              </TouchableHighlight>
+              <TouchableHighlight
+                style={{ ...styles.openButton, backgroundColor: "#EA4C46" }}
+                onPress={() => {
+                  this.setModalVisible(!this.state.modalVisible);
+                }}
+              >
+                <Text style={styles.textStyle}>Cancel</Text>
+              </TouchableHighlight>
+            </View>
+          </View>
         </Modal>
       </View>
     );
@@ -236,47 +244,47 @@ const styles = StyleSheet.create({
     color: "#808080",
     marginLeft: 5,
   },
-  textInput:{
-    height:40,
-    paddingLeft:6
+  textInput: {
+    height: 40,
+    paddingLeft: 6,
   },
   centeredView: {
-   flex: 1,
-   justifyContent: "center",
-   alignItems: "center",
-   marginTop: 22
- },
- modalView: {
-   margin: 20,
-   backgroundColor: "white",
-   borderRadius: 20,
-   padding: 35,
-   alignItems: "center",
-   shadowColor: "#000",
-   shadowOffset: {
-     width: 0,
-     height: 2
-   },
-   shadowOpacity: 0.25,
-   shadowRadius: 3.84,
-   elevation: 5
- },
- openButton: {
-   backgroundColor: "#F194FF",
-   borderRadius: 20,
-   padding: 10,
-   elevation: 2,
-   margin:10
- },
- textStyle: {
-   color: "white",
-   fontWeight: "bold",
-   textAlign: "center"
- },
- modalText: {
-   marginBottom: 15,
-   textAlign: "center"
- }
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22,
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  openButton: {
+    backgroundColor: "#F194FF",
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+    margin: 10,
+  },
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center",
+  },
 });
 
 export default PostShopTemplate;

@@ -1,4 +1,4 @@
-const url = "http://192.168.1.45:3000";
+const url = "http://192.168.1.135:3000";
 //const url = "http:/127.0.0.1:3306"
 
 export default {
@@ -14,5 +14,5 @@ export default {
   getAvaliabilityRequest: url + "/getAvaliabilityRequest",
   answerAvaliabilityRequest: url + "/answerAvaliabilityRequest",
   sendNotification: url + "/sendNotification",
-  persistNewDiscount: url + "/persistNewDiscount"
+  persistNewDiscount: url + "/persistNewDiscount",
 };
