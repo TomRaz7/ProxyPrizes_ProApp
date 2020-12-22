@@ -3,7 +3,6 @@ import {
   StyleSheet,
   Text,
   View,
-  Date,
   TextInput,
   Image,
   TouchableOpacity,
@@ -27,12 +26,20 @@ class PostShopTemplate extends React.Component {
       userId: 1, //should implement a Redux storage in the pro App as well for the final presentation
       expoToken: null,
       prop: this.props.prop,
+      isDeleteVisible: false,
     };
   }
   componentDidMount() {
     console.log("les props du component");
     console.log(this.props);
     this.retrieveExpoPushTokenFromDB();
+
+    if (this.state.userId === this.props.prop.owner) {
+      console.log("Same user");
+      this.setState({
+        isDeleteVisible: true,
+      });
+    }
   }
 
   retrieveExpoPushTokenFromDB() {
@@ -84,6 +91,26 @@ class PostShopTemplate extends React.Component {
       });
 
     //this.setState({ modalVisible: false });
+  }
+
+  deletePost(id) {
+    console.log("OK Pressed");
+
+    var postData = { postId: id };
+
+    fetch(EndpointConfig.deletePost, {
+      method: "POST",
+      body: JSON.stringify(postData),
+      headers: {
+        Accept: "application/json",
+        "content-type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log("Post deleted.");
+        this.props.navigation.navigate("PostScrollList");
+      });
   }
 
   persistDiscountInDb() {
@@ -223,6 +250,16 @@ class PostShopTemplate extends React.Component {
               >
                 <Text style={styles.textStyle}>Proceed discount</Text>
               </TouchableHighlight>
+              {this.state.isDeleteVisible && (
+                <TouchableHighlight
+                  style={{ ...styles.openButton, backgroundColor: "#FF0000" }}
+                  onPress={() => {
+                    this.deletePost(MesProps.id);
+                  }}
+                >
+                  <Text style={styles.textStyle}>Delete post</Text>
+                </TouchableHighlight>
+              )}
               <TouchableHighlight
                 style={{ ...styles.openButton, backgroundColor: "#EA4C46" }}
                 onPress={() => {
